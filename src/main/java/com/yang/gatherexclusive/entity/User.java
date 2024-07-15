@@ -1,9 +1,8 @@
-package com.yang.gatherexclusive.model;
+package com.yang.gatherexclusive.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -13,7 +12,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
     private String password;
     private String email;

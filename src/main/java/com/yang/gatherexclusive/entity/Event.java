@@ -1,4 +1,4 @@
-package com.yang.gatherexclusive.model;
+package com.yang.gatherexclusive.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.util.Set;
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String eventName;
     private String eventType;
     private Timestamp eventTime;
@@ -26,5 +26,6 @@ public class Event {
     Set<EventOrganizer> eventOrganizers;
 
     @OneToMany(targetEntity = Potluck.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_id")
     Set<Potluck> eventPotlucks;
 }

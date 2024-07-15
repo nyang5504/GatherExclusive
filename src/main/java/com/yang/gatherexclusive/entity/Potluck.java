@@ -1,4 +1,4 @@
-package com.yang.gatherexclusive.model;
+package com.yang.gatherexclusive.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.Data;
 public class Potluck {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String itemName;
     private String itemDescription;
     private Integer quantity;
