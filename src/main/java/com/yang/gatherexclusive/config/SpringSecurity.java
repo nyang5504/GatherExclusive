@@ -20,14 +20,20 @@ public class SpringSecurity {
     private CustomUserDetailsService customUserDetailsService;
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers("/index").permitAll()
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/register/**").permitAll()
+                        .requestMatchers("/index").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/fonts/**", "images/**").permitAll()
+
+        //  .requestMatchers("/users").hasRole("ADMIN")
+                        .anyRequest().authenticated()
                 )
                 .formLogin(
                         form -> form

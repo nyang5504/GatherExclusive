@@ -32,7 +32,7 @@ public class AuthorizationController {
         return "login";
     }
 
-    @GetMapping("register")
+    @GetMapping("/register")
     public String registerForm(Model model) {
         UserDto userDto = new UserDto();
         model.addAttribute("user", userDto);
