@@ -52,4 +52,9 @@ public class AuthorizationController {
         userService.saveUser(userDto);
         return "redirect:/register?success";
     }
+
+    @GetMapping("/create")
+    public String createEvent(Model model) {
+        return "create_event";
+    }
 }

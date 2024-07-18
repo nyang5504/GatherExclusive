@@ -6,6 +6,20 @@
 </head>
 <body>
     <div class="container">
+        <header>
+            <div>
+                <p>Gather</p>
+                <p>Exclusive</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/create}">create</a></li>
+                    <li><a href="">dashboard</a></li>
+                    <li><a href="">profile</a></li>
+                    <li><a th:href="@{/register}">sign up</a></li>
+                </ul>
+            </nav>
+        </header>
         <div th:if="${param.success}">Registered Successfully</div>
         <div>
             <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">

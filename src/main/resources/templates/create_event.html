@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Event</title>
+</head>
+<body>
+    <div>
+        <header>
+            <div>
+                <p>Gather</p>
+                <p>Exclusive</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/create}">create</a></li>
+                    <li><a href="">dashboard</a></li>
+<!--                    <li><a href="">profile</a></li>-->
+                    <li>
+                        <a th:if="${#authentication.authenticated}" href="">profile</a>
+                        <a th:unless="${#authentication.authenticated}" th:href="@{/register}">sign up</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <div>
+            <h1>Create Event</h1>
+            <div th:if="${#authentication.authenticated}">
+                <p th:text="${#authentication.principal.username}"></p>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
