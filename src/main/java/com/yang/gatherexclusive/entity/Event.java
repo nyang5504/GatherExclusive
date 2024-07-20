@@ -19,13 +19,13 @@ public class Event {
     private String eventLocation;
     private String eventDescription;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     Set<EventInvitee> eventInvitees;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     Set<EventOrganizer> eventOrganizers;
 
-    @OneToMany(targetEntity = Potluck.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = PotluckItem.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "item_id")
-    Set<Potluck> eventPotlucks;
+    Set<PotluckItem> eventPotluckItems;
 }

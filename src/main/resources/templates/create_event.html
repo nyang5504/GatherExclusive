@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Event</title>
+    <script src="/js/create_event.js"></script>
 </head>
 <body>
     <div>
@@ -28,6 +29,49 @@
             <div th:if="${#authentication.authenticated}">
                 <p th:text="${#authentication.principal.username}"></p>
 
+            </div>
+            <div>
+                <form method="post" role="form" th:action="@{/newEvent/save}" th:object="${event}">
+                    <div>
+                        <label for="event_name">Event Name: </label>
+                        <input type="text" id="event_name" name="event_name" placeholder="Event Name" th:field="*{eventName}">
+                    </div>
+                    <div>
+                        <label for="event_type">Event Type: </label>
+                        <input type="text" id="event_type" name="event_type" placeholder="party" th:field="*{eventType}">
+                    </div>
+                    <div>
+                        <label for="date_time">When: </label>
+                        <input type="datetime-local" id="date_time" name="date_time" th:field="*{eventTime}">
+                    </div>
+                    <div>
+                        <label for="location">Where: </label>
+                        <input type="text" id="location" name="location" placeholder="ABC Street" th:field="*{eventLocation}">
+                    </div>
+                    <div>
+                        <label for="desc">Description: </label>
+                        <input type="text" id="desc" name="desc" placeholder="Let loose and have fun!" th:field="*{eventDescription}">
+                    </div>
+                    <div>
+                        <label for="invites">Invite List</label>
+                        <input type="email" multiple id="invites" name="invites" placeholder="user@gmail.com, anotherUser@gmail.com" th:field="*{invites}">
+                    </div>
+                    <div>
+                        <h2>Potluck</h2>
+                        <div id="potluck_list" >
+                            <div th:each="item, iterStat: ${event.potluckItems}">
+                                <label th:for="potluck${iterStat.index}" th:text="Item ${iterStat.count}"></label>
+                                <input type="text" th:id="potluck${iterStat.index}" placeholder="soda" th:field="*{potluckItems[__${iterStat.index}__].itemName}">
+                                <label th:for="quantity${iterStat.index}">Quantity: </label>
+                                <input type="number" min="0" th:id="quantity${iterStat.index}" th:field="*{potluckItems[__${iterStat.index}__].quantity}">
+                            </div>
+                        </div>
+                        <button type="button" onclick="addPotluckItem()">Add Another Item</button>
+                    </div>
+                    <div>
+                        <button type="submit"></button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

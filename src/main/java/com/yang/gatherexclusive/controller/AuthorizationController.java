@@ -1,7 +1,9 @@
 package com.yang.gatherexclusive.controller;
 
+import com.yang.gatherexclusive.dto.EventDto;
 import com.yang.gatherexclusive.dto.UserDto;
 import com.yang.gatherexclusive.entity.User;
+import com.yang.gatherexclusive.service.EventService;
 import com.yang.gatherexclusive.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +18,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class AuthorizationController {
 
     private UserService userService;
+    private EventService eventService;
 
     @Autowired
-    public AuthorizationController( UserService userService ) {
+    public AuthorizationController( UserService userService, EventService eventService ) {
         this.userService = userService;
+        this.eventService = eventService;
     }
 
     @GetMapping("index")
@@ -55,6 +59,18 @@ public class AuthorizationController {
 
     @GetMapping("/create")
     public String createEvent(Model model) {
+        EventDto eventDto = new EventDto();
+        model.addAttribute("event", eventDto);
         return "create_event";
+    }
+
+    @PostMapping("/newEvent/save")
+    public String saveEvent(@Valid @ModelAttribute("event") EventDto eventDto, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("event", eventDto);
+            return "create_event";
+        }
+        eventService.saveEvent(eventDto);
+        return "redirect:/create?success";
     }
 }

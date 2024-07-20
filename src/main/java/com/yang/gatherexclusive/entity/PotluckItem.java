@@ -5,13 +5,13 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "potluck")
-public class Potluck {
+@Table(name = "potluck_item")
+public class PotluckItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String itemName;
-    private String itemDescription;
+//    private String itemDescription;
     private Integer quantity;
     //eventId
 }

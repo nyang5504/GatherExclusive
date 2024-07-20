@@ -19,5 +19,5 @@ public class EventInvitee {
     @JoinColumn(name = "invitee_id")
     private User invitee;
 
-    private boolean rsvped;
+    private Boolean rsvped;
 }
