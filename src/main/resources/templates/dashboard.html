@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+<body>
+    <div>
+        <h1>Welcome To Your Dashboard</h1>
+        <div>
+            <h2>Your Events</h2>
+            <div>
+                <div th:each="OrganizedEvent :${organizedEvents}">
+                    <div th:text="${OrganizedEvent.eventName}"></div>
+                    <div th:text="${OrganizedEvent.eventTime}"></div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h2>Attending</h2>
+            <div>
+                <div th:each="invitedEvent: ${invitedEvents}">
+                    <div th:text="${invitedEvent.eventName}"></div>
+                    <div th:text="${invitedEvent.eventTime}"></div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h2>Invited</h2>
+            <div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

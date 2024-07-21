@@ -2,10 +2,12 @@ package com.yang.gatherexclusive.controller;
 
 import com.yang.gatherexclusive.dto.EventDto;
 import com.yang.gatherexclusive.dto.UserDto;
+import com.yang.gatherexclusive.entity.Event;
 import com.yang.gatherexclusive.entity.User;
 import com.yang.gatherexclusive.service.EventService;
 import com.yang.gatherexclusive.service.UserService;
 import jakarta.validation.Valid;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.Principal;
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class AuthorizationController {
@@ -75,5 +79,14 @@ public class AuthorizationController {
         }
         eventService.saveEvent(eventDto);
         return "redirect:/index";
+    }
+
+    @GetMapping("/dashboard")
+    public String displayDashboard(Model model, Principal principal) {
+        List<EventDto> invitedEvents = eventService.findEventsByInviteeEmail(principal.getName());
+        model.addAttribute("invitedEvents", invitedEvents);
+        List<EventDto> organizedEvents = eventService.findEventsByOrganizerEmail(principal.getName());
+        model.addAttribute("organizedEvents", organizedEvents);
+        return "dashboard";
     }
 }

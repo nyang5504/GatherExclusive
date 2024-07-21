@@ -26,18 +26,18 @@ public class EventOrganizer {
     private User organizer;
 
     private Boolean isCreator;
-    private String description;
+//    private String description;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EventOrganizer that = (EventOrganizer) o;
-        return Objects.equals(id, that.id) && Objects.equals(isCreator, that.isCreator) && Objects.equals(description, that.description);
+        return Objects.equals(id, that.id) && Objects.equals(isCreator, that.isCreator);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, isCreator, description);
+        return Objects.hash(id, isCreator);
     }
 }
