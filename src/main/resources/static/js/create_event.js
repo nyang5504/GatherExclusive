@@ -4,7 +4,7 @@ function addPotluckItem(){
     //name
     const div = document.createElement("div");
     const label_item = document.createElement("label");
-    label_item.setAttribute("for", "potluck"+counter)
+    // label_item.setAttribute("for", "potluck"+counter)
     label_item.innerText = "Item " + counter + ": ";
     const input_item = document.createElement("input")
     input_item.type = "text";
@@ -13,7 +13,7 @@ function addPotluckItem(){
     input_item.placeholder = "soda";
     //quantity
     const label_quantity = document.createElement("label");
-    label_quantity.setAttribute("for", "quantity"+counter)
+    // label_quantity.setAttribute("for", "quantity"+counter)
     label_quantity.innerText = "Quantity :";
     const input_quantity = document.createElement("input")
     input_quantity.type = "number";

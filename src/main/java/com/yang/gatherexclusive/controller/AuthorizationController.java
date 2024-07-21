@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
+
 @Controller
 public class AuthorizationController {
 
@@ -60,6 +62,7 @@ public class AuthorizationController {
     @GetMapping("/create")
     public String createEvent(Model model) {
         EventDto eventDto = new EventDto();
+//        eventDto.setPotluckItems(new ArrayList<>());
         model.addAttribute("event", eventDto);
         return "create_event";
     }
@@ -71,6 +74,6 @@ public class AuthorizationController {
             return "create_event";
         }
         eventService.saveEvent(eventDto);
-        return "redirect:/create?success";
+        return "redirect:/index";
     }
 }

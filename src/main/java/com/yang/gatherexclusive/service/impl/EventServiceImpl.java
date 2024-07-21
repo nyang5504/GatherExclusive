@@ -12,6 +12,7 @@ import com.yang.gatherexclusive.repository.UserRepository;
 import com.yang.gatherexclusive.service.EventService;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -37,9 +38,16 @@ public class EventServiceImpl implements EventService {
         event.setEventLocation(eventDto.getEventLocation());
         event.setEventDescription(eventDto.getEventDescription());
 //        Set<EventInviteeDto> invites = new HashSet<>(eventDto.getInvites());
-        Set<EventInvitee> inviteeSet = eventDto.getInvites().stream().map(inviteeDto ->
-                convertDtoToEntity(inviteeDto,event)).collect(Collectors.toSet());
-        event.setEventInvitees(inviteeSet);
+        Set<EventInvitee> inviteeSet = Arrays.stream(eventDto.getInvites().split(","))
+                .map(untrimmed -> untrimmed.trim())
+                .map(email -> eventInviteeFromEmail(event,email))
+                .collect(Collectors.toSet());
+        if(!(inviteeSet.size() == 1 && inviteeSet.contains(null))) {
+            event.setEventInvitees(inviteeSet);
+        }
+        inviteeSet.forEach(invitee -> System.out.println("Invitee in set: " + invitee));
+        //organizers are not set at this point
+
         if(!eventDto.getPotluckItems().isEmpty()){
             Set<PotluckItem> items = eventDto.getPotluckItems().stream().map(itemDto ->
                     convertDtoToEntity(itemDto)).collect(Collectors.toSet());
@@ -53,19 +61,31 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findById(id);
     }
 
-    private EventInvitee convertDtoToEntity(EventInviteeDto eventInviteeDto, Event event){
-        EventInvitee eventInvitee = new EventInvitee();
-        User inviteeUser = userRepository.findByEmail(eventInviteeDto.getInviteeEmail());
-        eventInvitee.setEvent(event);
-        eventInvitee.setInvitee(inviteeUser);
-        eventInvitee.setRsvped(false);
-        return eventInvitee;
-    }
+//    private EventInvitee convertDtoToEntity(EventInviteeDto eventInviteeDto, Event event){
+//        EventInvitee eventInvitee = new EventInvitee();
+//        User inviteeUser = userRepository.findByEmail(eventInviteeDto.getInviteeEmail());
+//        eventInvitee.setEvent(event);
+//        eventInvitee.setInvitee(inviteeUser);
+//        eventInvitee.setRsvped(false);
+//        return eventInvitee;
+//    }
 
     private PotluckItem convertDtoToEntity(PotluckItemDto potluckItemDto){
         PotluckItem potluckItem = new PotluckItem();
         potluckItem.setItemName(potluckItemDto.getItemName());
-        potluckItem.setQuantity(potluckItem.getQuantity());
+        potluckItem.setQuantity(potluckItemDto.getQuantity());
         return potluckItem;
+    }
+
+    private EventInvitee eventInviteeFromEmail(Event event, String email){
+        EventInvitee eventInvitee = new EventInvitee();
+        User invitee = userRepository.findByEmail(email);
+        if(invitee == null){
+            return null;
+        }
+        eventInvitee.setEvent(event);
+        eventInvitee.setInvitee(invitee);
+        eventInvitee.setRsvped(false);
+        return eventInvitee;
     }
 }
