@@ -21,6 +21,10 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * saves user to database
+     * @param userDto
+     */
     @Override
     public void saveUser(UserDto userDto) {
         User user = new User();
@@ -30,11 +34,20 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    /**
+     * get a User by email
+     * @param email
+     * @return User
+     */
     @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
+    /**
+     * get a list of all users
+     * @return List of UserDto
+     */
     @Override
     public List<UserDto> findAllUsers() {
         List<User> users = userRepository.findAll();
@@ -42,6 +55,11 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * helper function to convert a User to UserDto
+     * @param user
+     * @return UserDto
+     */
     private UserDto convertEntityToDto(User user) {
         UserDto userDto = new UserDto();
         userDto.setName(user.getName());

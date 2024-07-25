@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.yang</groupId>
-    <artifactId>GatherExclusive</artifactId>
+    <artifactId>Yang_Nina_GatherExclusive_CaseStudy</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>GatherExclusive</name>
     <description>GatherExclusive</description>

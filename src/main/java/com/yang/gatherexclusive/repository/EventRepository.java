@@ -17,17 +17,17 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
     /**
-     * Finds all events that a user organizes based on the {@code email} of the organizer
+     * Finds all events that a user organizes based on the {@code email} of the user
      * @param email email of an organizer
      * @return {@code List<Event>}
      */
     List<Event> findByEventOrganizers_Organizer_Email(String email);
 
     /**
-     *
+     * Finds all events that a user has rsvp'd to based on the {@code email} of the user
      * @param email
      * @param rsvped
-     * @return
+     * @return {@code List<Event>}
      */
     List<Event> findByEventInvitees_Invitee_EmailAndEventInvitees_Rsvped(String email, Boolean rsvped);
 

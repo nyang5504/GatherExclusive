@@ -22,21 +22,11 @@ public class User {
     private String password;
     private String email;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    private EventOrganizer organizer;
-//    @ManyToMany(targetEntity = Event.class, cascade = CascadeType.ALL)
-//    @JoinTable(name = "event_invitee", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "event_id"))
-//    private Set<Event> eventsInvited;
-
     @OneToMany(mappedBy = "invitee")
     Set<EventInvitee> eventInvitees;
 
     @OneToMany(mappedBy = "organizer")
     Set<EventOrganizer> eventOrganizers;
-
-//    @ManyToMany(targetEntity = Event.class, cascade = CascadeType.ALL)
-//    @JoinTable(name = "event_organizer", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "event_id"))
-//    private Set<Event> eventsOrganized;
 
     @Override
     public boolean equals(Object o) {

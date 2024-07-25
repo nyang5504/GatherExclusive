@@ -13,5 +13,4 @@ public class PotluckItem {
     private String itemName;
 //    private String itemDescription;
     private Integer quantity;
-    //eventId
 }

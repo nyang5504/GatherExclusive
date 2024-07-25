@@ -121,7 +121,6 @@ public class EventServiceImpl implements EventService {
         if(event.isPresent()){
             eventRepository.delete(event.get());
         }
-//        eventRepository.deleteEventById(id);
     }
 
 //    private EventInvitee convertDtoToEntity(EventInviteeDto eventInviteeDto, Event event){
@@ -133,6 +132,11 @@ public class EventServiceImpl implements EventService {
 //        return eventInvitee;
 //    }
 
+    /**
+     * helper function to convert PotluckItemDto to PotluckItem
+     * @param potluckItemDto
+     * @return PotluckItem
+     */
     private PotluckItem convertDtoToEntity(PotluckItemDto potluckItemDto){
         PotluckItem potluckItem = new PotluckItem();
         potluckItem.setItemName(potluckItemDto.getItemName());
@@ -140,6 +144,11 @@ public class EventServiceImpl implements EventService {
         return potluckItem;
     }
 
+    /**
+     * helper function to convert PotluckItem to PotluckItemDto
+     * @param potluckItem
+     * @return PotluckItemDto
+     */
     private PotluckItemDto convertEntityToDto(PotluckItem potluckItem){
         PotluckItemDto potluckItemDto = new PotluckItemDto();
         potluckItemDto.setItemName(potluckItem.getItemName());
@@ -147,6 +156,12 @@ public class EventServiceImpl implements EventService {
         return potluckItemDto;
     }
 
+    /**
+     * helper function to find EventInvitee from event object and email of user
+     * @param event
+     * @param email
+     * @return EventInvitee
+     */
     private EventInvitee eventInviteeFromEmail(Event event, String email){
         EventInvitee eventInvitee = new EventInvitee();
         User invitee = userRepository.findByEmail(email);
@@ -159,6 +174,11 @@ public class EventServiceImpl implements EventService {
         return eventInvitee;
     }
 
+    /**
+     * helper function to convert Event to EventDto
+     * @param event
+     * @return EventDto
+     */
     private EventDto convertEntityToDto(Event event){
         EventDto eventDto = new EventDto();
         eventDto.setId(event.getId());

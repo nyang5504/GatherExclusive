@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- *     Provides custom details in how az
+ *     Class loads user information based on a given email
  * </p>
  */
 @Service

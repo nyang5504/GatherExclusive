@@ -181,6 +181,12 @@ public class  AuthorizationController {
         return "organizer_event_details";
     }
 
+    /**
+     *
+     * @param id of event to delete
+     * @return dashboard html page
+     */
+
     @PostMapping("/dashboard/deleteEvent/{id}")
     public String deleteEvent(@PathVariable("id") Long id) {
         eventService.deleteEvent(id);
