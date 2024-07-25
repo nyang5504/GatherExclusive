@@ -1,29 +1,36 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
 <head>
     <meta charset="UTF-8">
     <title>Gather Exclusive</title>
     <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/navbar.css">
 </head>
 <body>
     <div class="bg-container">
         <header>
-            <div>
-                <p>Gather</p>
-                <p>Exclusive</p>
-            </div>
+            <a id="logo" th:href="@{/index}">
+                <div class="logo-container">
+                    <p>Gather</p>
+                    <p>Exclusive</p>
+                </div>
+            </a>
             <nav>
                 <ul>
                     <li><a th:href="@{/create}">create</a></li>
                     <li><a th:href="@{/dashboard}">dashboard</a></li>
-                    <li><a href="">profile</a></li>
-                    <li><a th:href="@{/register}">sign up</a></li>
+                    <li>
+                        <a sec:authorize="isAuthenticated()" th:href="@{/logout}">logout</a>
+                        <a sec:authorize="!isAuthenticated()" th:href="@{/register}">sign up</a>
+                    </li>
                 </ul>
             </nav>
         </header>
         <main>
             <h1>Craft Unforgettable Moments</h1>
-            <button id="plan-btn">Plan</button>
+            <a th:href="@{/create}">
+                <button id="plan-btn">Plan</button>
+            </a>
         </main>
     </div>
 

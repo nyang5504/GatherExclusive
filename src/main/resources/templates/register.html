@@ -3,42 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/register.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <div>
-                <p>Gather</p>
-                <p>Exclusive</p>
-            </div>
+            <a id="logo" th:href="@{/index}">
+                <div>
+                    <p>Gather</p>
+                    <p>Exclusive</p>
+                </div>
+            </a>
             <nav>
                 <ul>
                     <li><a th:href="@{/create}">create</a></li>
                     <li><a th:href="@{/dashboard}">dashboard</a></li>
-                    <li><a href="">profile</a></li>
+<!--                    <li><a href="">profile</a></li>-->
                     <li><a th:href="@{/register}">sign up</a></li>
                 </ul>
             </nav>
         </header>
         <div th:if="${param.success}">Registered Successfully</div>
-        <div>
-            <form method="post" role="form" th:action="@{/register/save}" th:object="${user}">
-                <div>
+        <div class="registration-container">
+            <h2 id="register">Register</h2>
+            <form id="register-form" method="post" role="form" th:action="@{/register/save}" th:object="${user}">
+                <div class="input-container">
                     <label for="email">Email: </label>
-                    <input type="text" id="email" name="email" placeholder="Email" th:field="*{email}"/>
+                    <input type="email" id="email" name="email" placeholder="Type your email" th:field="*{email}"/>
                     <p th:errors="*{email}" th:if="${#fields.hasErrors('email')}"></p>
-                </div>
-                <div>
+                </div >
+                <div class="input-container">
                     <label for="username">Name: </label>
-                    <input type="text" id="username" name="username" placeholder="Name" th:field="*{name}"/>
+                    <input type="text" id="username" name="username" placeholder="Type your name" th:field="*{name}"/>
                     <p th:errors="*{name}" th:if="${#fields.hasErrors('name')}"></p>
                 </div>
-                <div>
+                <div class="input-container">
                     <label for="password">Password: </label>
-                    <input type="password" id="password" name="password" placeholder="Password" th:field="*{password}"/>
+                    <input type="password" id="password" name="password" placeholder="Type your password" th:field="*{password}"/>
                     <p th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></p>
                 </div>
-                <div>
+                <div class="input-container">
                     <button type="submit">Register</button>
                     <span>Already registered?</span>
                     <a th:href="@{/login}">Login Here</a>

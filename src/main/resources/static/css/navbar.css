@@ -6,8 +6,34 @@
 }
 
 :root{
-    --hometxt-color: white;
+    --hometxt-color: #e4e4e4;
+    --input-txt-color: black;
 }
+
+input{
+    color: var(--input-txt-color);
+}
+
+body{
+    background-color: #1e222c;
+}
+
+#logo{
+    text-decoration: none;
+    color: black;
+}
+nav ul li a {
+    text-decoration: none;
+}
+li > a:hover{
+    color: #83a9dc;
+    text-decoration: underline;
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.8)
+}
+
+/*nav ul li a:hover{*/
+/*    transform: scale(3);*/
+/*}*/
 
 .bg-container{
     background-image: url("../images/fireworks.jpg");
@@ -24,34 +50,13 @@ header {
     border-bottom: 1px solid lightgray;
     height: 3rem;
     padding: 0 1rem;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
 }
+
+
 
 ul {
     display: flex;
     gap: 4rem;
     list-style: none;
-}
-
-h1 {
-    text-align: center;
-    margin-top: 1.4rem;
-}
-
-main {
-    /*position: relative;*/
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 35rem;
-}
-
-#plan-btn {
-    width: 25rem;
-    height: 2rem;
-    background: gray;
-    border: none;
-}
-
-#plan-btn:hover{
-    cursor: pointer;
 }

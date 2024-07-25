@@ -13,10 +13,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
+/**
+ * <p>
+ *     Provides custom details in how az
+ * </p>
+ */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -30,14 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         else {
             return new org.springframework.security.core.userdetails.User(user.getEmail(),
-                    user.getPassword(), mapRolesToAuthorities(Collections.singletonList((Object) "USER")));
+                    user.getPassword(), Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
         }
-
-    }
-
-    private Collection< ? extends GrantedAuthority> mapRolesToAuthorities(Collection <Object> roles) {
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority("USER"))
-                .collect(Collectors.toList());
     }
 }

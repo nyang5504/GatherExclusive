@@ -3,34 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
     <div>
-        <h1>Welcome To Your Dashboard</h1>
-        <div>
-            <h2>Your Events</h2>
-            <div>
-                <div th:each="OrganizedEvent :${organizedEvents}">
-                    <div th:text="${OrganizedEvent.eventName}"></div>
-                    <div th:text="${OrganizedEvent.eventTime}"></div>
+        <header>
+            <a id="logo" th:href="@{/index}">
+                <div>
+                    <p>Gather</p>
+                    <p>Exclusive</p>
                 </div>
-            </div>
-        </div>
-        <div>
-            <h2>Attending</h2>
-            <div>
-                <div th:each="invitedEvent: ${invitedEvents}">
-                    <div th:text="${invitedEvent.eventName}"></div>
-                    <div th:text="${invitedEvent.eventTime}"></div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <h2>Invited</h2>
-            <div>
+            </a>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/create}">create</a></li>
+                    <li><a th:href="@{/dashboard}">dashboard</a></li>
+<!--                    <li><a href="">profile</a></li>-->
+                    <li><a th:href="@{/logout}">logout</a></li>
+                </ul>
+            </nav>
+        </header>
 
+        <div class="container">
+            <div class="background-container">
+                <h1>Welcome To Your Dashboard</h1>
+                <div class="created-container">
+                    <h2>Your Events</h2>
+                    <div class="info-container" id="organized-events">
+                        <div th:each="organizedEvent: ${organizedEvents}">
+                            <div>
+                                <div th:text="${organizedEvent.eventName}"></div>
+                                <div th:text="${organizedEvent.eventTime}"></div>
+                            </div>
+
+                            <form th:action="@{/dashboard/organizer/viewEvent/{id}(id=${organizedEvent.id})}">
+                                <button type="submit">View Details</button>
+                            </form>
+                            <form method="post" th:action="@{/dashboard/deleteEvent/{id}(id=${organizedEvent.id})}">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="invited-container">
+                    <div>
+                        <h2>Attending</h2>
+                        <div class="info-container" id="attending-events">
+                            <div th:each="attendingEvent: ${attendingEvents}">
+                                <div>
+                                    <div th:text="${attendingEvent.eventName}"></div>
+                                    <div th:text="${attendingEvent.eventTime}"></div>
+                                </div>
+
+                                <form th:action="@{/dashboard/viewEvent/{id}(id=${attendingEvent.id})}">
+                                    <button type="submit">View Details</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h2>Invited (Pending)</h2>
+                        <div class="info-container" id="invited-events">
+                            <div th:each="invitedEvent: ${invitedEvents}">
+                                <div>
+<!--                                    <div th:text="${invitedEvent.id}"></div>-->
+                                    <div th:text="${invitedEvent.eventName}"></div>
+                                    <div th:text="${invitedEvent.eventTime}"></div>
+                                </div>
+
+                                <form method="post" th:action="@{/dashboard/rsvp/{id}(id=${invitedEvent.id})}">
+                                    <button type="submit">RSVP</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
 </body>
 </html>

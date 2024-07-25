@@ -19,15 +19,19 @@ import java.util.stream.Collectors;
 public class EventServiceImpl implements EventService {
 
     private final UserRepository userRepository;
-    private EventRepository eventRepository;
+    private final EventRepository eventRepository;
 
     public EventServiceImpl(EventRepository eventRepository, UserRepository userRepository) {
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
     }
 
+    /**
+     * saves an event to the database
+     * @param eventDto
+     */
     @Override
-    public void saveEvent(EventDto eventDto) {
+    public void saveEvent(EventDto eventDto) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserEmail = authentication.getName();
 
@@ -45,8 +49,10 @@ public class EventServiceImpl implements EventService {
         if(!(inviteeSet.size() == 1 && inviteeSet.contains(null))) {
             event.setEventInvitees(inviteeSet);
         }
+        else{
+            event.setEventInvitees(new HashSet<>());
+        }
         inviteeSet.forEach(invitee -> System.out.println("Invitee in set: " + invitee));
-        //organizers are not set at this point
 
         Set<EventOrganizer> organizerSet = new HashSet<>();
         EventOrganizer organizer = new EventOrganizer();
@@ -61,24 +67,61 @@ public class EventServiceImpl implements EventService {
                     convertDtoToEntity(itemDto)).collect(Collectors.toSet());
             event.setEventPotluckItems(items);
         }
+        else{
+            event.setEventPotluckItems(new HashSet<>());
+        }
         eventRepository.save(event);
     }
 
+    /**
+     * find EventDto through an event id
+     * @param id
+     * @return EventDto that has a certain id
+     */
     @Override
-    public Optional<Event> findEventById(Long id) {
-        return eventRepository.findById(id);
+    public EventDto findEventById(Long id) {
+        Optional<Event> event = eventRepository.findById(id);
+        if(event.isPresent()) {
+            return convertEntityToDto(event.get());
+        }
+        return null;
     }
 
+    /**
+     *
+     * @param email
+     * @return a list of EventDto for a user
+     */
     @Override
     public List<EventDto> findEventsByOrganizerEmail(String email) {
         List<Event> events = eventRepository.findByEventOrganizers_Organizer_Email(email);
-        return events.stream().map(event -> convertEntityToDto(event)).collect(Collectors.toList());
+        return events.stream().map(this::convertEntityToDto).collect(Collectors.toList());
+    }
+
+    /**
+     * 
+     * @param email
+     * @return
+     */
+    @Override
+    public List<EventDto> findPendingEventsByInviteeEmail(String email) {
+        List<Event> events = eventRepository.findByEventInvitees_Invitee_EmailAndEventInvitees_Rsvped(email, false);
+        return events.stream().map(this::convertEntityToDto).collect(Collectors.toList());
     }
 
     @Override
-    public List<EventDto> findEventsByInviteeEmail(String email) {
-        List<Event> events = eventRepository.findByEventInvitees_Invitee_Email(email);
-        return events.stream().map(event -> convertEntityToDto(event)).collect(Collectors.toList());
+    public List<EventDto> findRSVPedEventsByInviteeEmail(String email) {
+        List<Event> events = eventRepository.findByEventInvitees_Invitee_EmailAndEventInvitees_Rsvped(email, true);
+        return events.stream().map(this::convertEntityToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteEvent(Long id) {
+        Optional<Event> event = eventRepository.findById(id);
+        if(event.isPresent()){
+            eventRepository.delete(event.get());
+        }
+//        eventRepository.deleteEventById(id);
     }
 
 //    private EventInvitee convertDtoToEntity(EventInviteeDto eventInviteeDto, Event event){
@@ -118,6 +161,7 @@ public class EventServiceImpl implements EventService {
 
     private EventDto convertEntityToDto(Event event){
         EventDto eventDto = new EventDto();
+        eventDto.setId(event.getId());
         eventDto.setEventName(event.getEventName());
         eventDto.setEventType(event.getEventType());
         eventDto.setEventTime(event.getEventTime());

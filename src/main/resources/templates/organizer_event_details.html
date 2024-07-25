@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Details</title>
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/organizer_event_details.css">
+</head>
+<body>
+    <div>
+        <header>
+            <a id="logo" th:href="@{/index}">
+                <div>
+                    <p>Gather</p>
+                    <p>Exclusive</p>
+                </div>
+            </a>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/create}">create</a></li>
+                    <li><a th:href="@{/dashboard}">dashboard</a></li>
+<!--                    <li><a href="">profile</a></li>-->
+                    <li><a th:href="@{/logout}">logout</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="container">
+            <h1 th:text="'Event Details For: ' + ${event.eventName}"></h1>
+            <div class="annoying-div">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td class="label">Event Type</td>
+                        <td th:text="${event.eventType}"></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Event Date and Time</td>
+                        <td th:text="${event.eventTime}"></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Event Location</td>
+                        <td th:text="${event.eventLocation}"></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Event Description</td>
+                        <td th:text="${event.eventDescription}"></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Potluck</td>
+                        <td>
+                            <div class="potluck-item" th:each="potluckItem: ${event.potluckItems}">
+                                <div th:text="${potluckItem.itemName}"></div>
+                                <div th:text="${potluckItem.quantity}"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>RSVPed Users</td>
+                        <td>
+                            <div class="rsvped" th:each="rsvped: ${eventInviteesRsvped}"
+                                 th:text="${rsvped.inviteeEmail}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Invited/Pending Users</td>
+                        <td>
+                            <div class="invited" th:each="invited: ${eventInvitees}"
+                                 th:text="${invited.inviteeEmail}"></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
